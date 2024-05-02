@@ -1,29 +1,40 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 import { PostsModel } from '../../entity/posts/post.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from 'src/dto/posts/create-post.dto';
 import { UpdatePostDto } from 'src/dto/posts/update-post.dto';
+import { PaginatePostDto } from 'src/dto/posts/paginate-post.dto';
+import { CommonService } from '../common/common.service';
+import { ImageModel } from 'src/entity/image.entity';
+import { POST_DEFAULT_FIND_OPTIONS } from 'src/constant/post.constant';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(PostsModel)
     private readonly postsRepository: Repository<PostsModel>,
+    private readonly commonService: CommonService,
+    @InjectRepository(ImageModel)
+    private readonly imageRepository: Repository<ImageModel>,
   ) {}
+
+  getRepository(qr?: QueryRunner) {
+    return qr ? qr.manager.getRepository(PostsModel) : this.postsRepository;
+  }
 
   getAllPosts() {
     return this.postsRepository.find({
-      relations: ['author'],
+      ...POST_DEFAULT_FIND_OPTIONS,
     });
   }
 
-  async getPostById(id: number) {
-    const result = await this.postsRepository.findOne({
+  async getPostById(id: number, qr?: QueryRunner) {
+    const result = await this.getRepository(qr).findOne({
+      ...POST_DEFAULT_FIND_OPTIONS,
       where: {
         id,
       },
-      relations: ['author'],
     });
 
     if (!result) {
@@ -33,17 +44,20 @@ export class PostsService {
     return result;
   }
 
-  async createPost(authorId: number, dto: CreatePostDto) {
-    const post = this.postsRepository.create({
+  async createPost(authorId: number, dto: CreatePostDto, qr?: QueryRunner) {
+    const repo = this.getRepository(qr);
+
+    const post = repo.create({
       author: {
         id: authorId,
       },
       ...dto,
+      images: [],
       likeCount: 0,
       commentCount: 0,
     });
 
-    const newPost = await this.postsRepository.save(post);
+    const newPost = await repo.save(post);
 
     return newPost;
   }
@@ -81,5 +95,24 @@ export class PostsService {
     await this.postsRepository.delete(id);
 
     return id;
+  }
+
+  async paginatePosts(dto: PaginatePostDto) {
+    return this.commonService.paginateOptions<PostsModel>(
+      dto,
+      this.postsRepository,
+      POST_DEFAULT_FIND_OPTIONS,
+      'posts',
+    );
+  }
+
+  async generateRandomPosts(userId: number) {
+    for (let i = 0; i < 100; i++) {
+      await this.createPost(userId, {
+        title: `일괄 처리되는 제목 ${i}`,
+        content: `일괄 처리되는 게시물의 내용입니다.${i}`,
+        images: [],
+      });
+    }
   }
 }

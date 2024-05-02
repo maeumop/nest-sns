@@ -1,15 +1,16 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { HASH_ROUNDS, JWT_SECRET } from 'src/common/constains';
 import { UsersModel } from 'src/entity/users/users.entity';
 import { UsersService } from 'src/api/users/users.service';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
+    private readonly config: ConfigService,
   ) {}
 
   /**
@@ -55,7 +56,9 @@ export class AuthService {
    */
   verifyToken(token: string) {
     try {
-      return this.jwtService.verify(token, { secret: JWT_SECRET });
+      return this.jwtService.verify(token, {
+        secret: this.config.get<string>('JWT_SECRET'),
+      });
     } catch (e) {
       throw new UnauthorizedException(
         '토큰이 만료 되었거나, 잘못된 토큰 입니다.',
@@ -70,7 +73,9 @@ export class AuthService {
    * @returns
    */
   reissueToken(token: string, isRefresh: boolean = false) {
-    const decoded = this.jwtService.verify(token, { secret: JWT_SECRET });
+    const decoded = this.jwtService.verify(token, {
+      secret: this.config.get<string>('JWT_SECRET'),
+    });
 
     if (decoded.type !== 'refresh') {
       throw new UnauthorizedException('재발급이 불가능한 토큰입니다.');
@@ -93,7 +98,7 @@ export class AuthService {
     };
 
     return this.jwtService.sign(payload, {
-      secret: JWT_SECRET,
+      secret: this.config.get<string>('JWT_SECRET'),
       expiresIn: isRefresh ? 3600 : 300,
     });
   }
@@ -150,7 +155,10 @@ export class AuthService {
   async registerWithEmail(
     user: Pick<UsersModel, 'nickname' | 'email' | 'password'>,
   ) {
-    const hash = await bcrypt.hash(user.password, HASH_ROUNDS);
+    const hash = await bcrypt.hash(
+      user.password,
+      this.config.get<number>('HASH_ROUNDS'),
+    );
 
     const newUser = await this.usersService.createUser({
       ...user,
