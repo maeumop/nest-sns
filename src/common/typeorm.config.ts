@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ChatsModel } from 'src/entity/chats/chat.entity';
 import { ImageModel } from 'src/entity/image.entity';
 import { PostsModel } from 'src/entity/posts/post.entity';
 import { UsersModel } from 'src/entity/users/users.entity';
@@ -14,7 +15,7 @@ export const typeOrmConfig = async (
     username: config.get<string>('DB_USERNAME'),
     password: config.get<string>('DB_PASSWORD'),
     database: config.get<string>('DB_DATABASE'),
-    entities: [PostsModel, UsersModel, ImageModel],
+    entities: [PostsModel, UsersModel, ImageModel, ChatsModel],
     synchronize: true,
   };
 };

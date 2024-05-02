@@ -98,7 +98,7 @@ export class PostsService {
   }
 
   async paginatePosts(dto: PaginatePostDto) {
-    return this.commonService.paginateOptions<PostsModel>(
+    return this.commonService.paginate<PostsModel>(
       dto,
       this.postsRepository,
       POST_DEFAULT_FIND_OPTIONS,

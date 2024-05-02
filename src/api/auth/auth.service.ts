@@ -157,7 +157,7 @@ export class AuthService {
   ) {
     const hash = await bcrypt.hash(
       user.password,
-      this.config.get<number>('HASH_ROUNDS'),
+      Number(this.config.get('HASH_ROUNDS')),
     );
 
     const newUser = await this.usersService.createUser({

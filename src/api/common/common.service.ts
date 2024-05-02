@@ -48,7 +48,7 @@ export class CommonService {
     return result;
   }
 
-  async paginateOptions<T extends BaseModel>(
+  async paginate<T extends BaseModel>(
     dto: BasePaginateDto<T>,
     repository: Repository<T>,
     overrideOptions: FindManyOptions<T> = {},

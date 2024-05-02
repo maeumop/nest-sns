@@ -18,6 +18,7 @@ import { typeOrmConfig } from './common/typeorm.config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { UPLOAD_PATH } from './common/path';
 import { LogMiddleware } from './middleware/log.middleware';
+import { ChatsModule } from './chats/chats.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { LogMiddleware } from './middleware/log.middleware';
     AuthModule,
     UsersModule,
     CommonModule,
+    ChatsModule,
   ],
   controllers: [AppController],
   providers: [

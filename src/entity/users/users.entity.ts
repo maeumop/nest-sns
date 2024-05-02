@@ -1,10 +1,11 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { UserRole } from 'src/types/users';
 import { PostsModel } from 'src/entity/posts/post.entity';
 import { BaseModel } from 'src/entity/base.entity';
 import { IsEmail, IsString, Length } from 'class-validator';
 import { Util } from 'src/common/utils';
 import { Exclude } from 'class-transformer';
+import { ChatsModel } from '../chats/chat.entity';
 
 /**
  * entity에서 property를 선택적으로 노출하고 싶다면
@@ -54,4 +55,8 @@ export class UsersModel extends BaseModel {
 
   @OneToMany(() => PostsModel, (model) => model.author)
   posts: PostsModel[];
+
+  @ManyToMany(() => ChatsModel, (model) => model.users)
+  @JoinTable() // many to many에서는 한쪽 테이블에 JoinTable annotation이 필요하다
+  chats: ChatsModel[];
 }
