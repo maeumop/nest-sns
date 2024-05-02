@@ -12,7 +12,6 @@ import {
   ClassSerializerInterceptor,
   Query,
   UseFilters,
-  BadRequestException,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { AccessTokenGuard } from 'src/guard/auth/bearer-token.guard';
