@@ -1,5 +1,5 @@
 import { NestMiddleware } from '@nestjs/common';
-import { NextFunction } from 'connect';
+import { NextFunction } from 'express';
 
 export class LogMiddleware implements NestMiddleware {
   use(req: any, res: any, next: NextFunction) {

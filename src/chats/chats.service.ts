@@ -28,14 +28,24 @@ export class ChatsService {
   }
 
   async createChat(dto: CreateChatDto) {
-    const chat = await this.chatsRepository.save({
+    const result = await this.chatsRepository.save({
       users: dto.userIds.map((id) => ({ id })),
     });
 
     return this.chatsRepository.findOne({
       where: {
-        id: chat.id,
+        id: result.id,
       },
     });
+  }
+
+  async isExistsChatRoom(id: number) {
+    const exists = await this.chatsRepository.exists({
+      where: {
+        id,
+      },
+    });
+
+    return exists;
   }
 }

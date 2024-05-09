@@ -5,9 +5,11 @@ import { ImageModelType } from 'src/types/common';
 import { POST_URL_PATH, USER_URL_PATH } from 'src/common/path';
 import { join } from 'path';
 import { Transform } from 'class-transformer';
-import { PostsModel } from './posts/post.entity';
+import { BlogsModel } from './posts/blog.entity';
 
-@Entity()
+@Entity({
+  name: 'upload_files',
+})
 export class ImageModel extends BaseModel {
   @Column({
     default: 0,
@@ -35,6 +37,6 @@ export class ImageModel extends BaseModel {
   })
   path: string;
 
-  @ManyToOne(() => PostsModel, (model) => model.images)
-  post?: PostsModel;
+  @ManyToOne(() => BlogsModel, (model) => model.images)
+  blog: BlogsModel;
 }

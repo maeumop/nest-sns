@@ -4,7 +4,7 @@ import { promises } from 'fs';
 import { basename, join } from 'path';
 import { POST_UPLOAD_PATH, TEMP_PATH } from 'src/common/path';
 import { BasePaginateDto } from 'src/dto/base-paginate.dto';
-import { CreatePostImageDto } from 'src/dto/create-image.dto';
+import { CreateBlogImageDto } from 'src/dto/create-image.dto';
 import { BaseModel } from 'src/entity/base.entity';
 import { ImageModel } from 'src/entity/image.entity';
 import {
@@ -29,7 +29,7 @@ export class CommonService {
     return qr ? qr.manager.getRepository(ImageModel) : this.imageRepository;
   }
 
-  async createImage(dto: CreatePostImageDto, qr?: QueryRunner) {
+  async createImage(dto: CreateBlogImageDto, qr?: QueryRunner) {
     const tempImagePath = join(TEMP_PATH, dto.path);
 
     try {
@@ -81,7 +81,11 @@ export class CommonService {
       ...overrideOptions,
     };
 
-    const [posts, total] = await repository.findAndCount(options);
+    console.log(dto, repository);
+
+    const [data, total] = await repository.findAndCount(options);
+
+    console.log(options);
 
     let lastRecord;
     let nextUrl;
@@ -90,9 +94,7 @@ export class CommonService {
       const { HTTP_HOST, HTTP_PROTOCOL } = process.env;
 
       lastRecord =
-        posts.length && posts.length === dto.take
-          ? posts[posts.length - 1]
-          : null;
+        data.length && data.length === dto.take ? data[data.length - 1] : null;
 
       if (lastRecord) {
         nextUrl = new URL(`${HTTP_PROTOCOL}://${HTTP_HOST}/${path}`);
@@ -112,11 +114,11 @@ export class CommonService {
     }
 
     return {
-      data: posts,
+      data: data,
       cursor: {
         after: lastRecord && lastRecord.id,
       },
-      count: posts.length,
+      count: data.length,
       total,
       next: nextUrl?.toString() ?? null,
     };

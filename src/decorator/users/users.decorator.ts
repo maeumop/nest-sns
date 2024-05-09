@@ -3,7 +3,7 @@ import {
   ExecutionContext,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { UsersModel } from '../../entity/users/users.entity';
+import { UsersModel } from '../../entity/users/user.entity';
 
 /**
  * 사용자 생성 decorator
