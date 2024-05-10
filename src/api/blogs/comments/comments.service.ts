@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CommonService } from 'src/api/common/common.service';
 import { UpdateCommentDto } from 'src/dto/blogs/update-comment.dto';
 import { PaginateCommentDto } from 'src/dto/blogs/paginate-comment.dto';
-import { CommentsModel } from 'src/entity/posts/comment.entity';
+import { CommentsModel } from 'src/entity/blogs/comment.entity';
 import { QueryRunner, Repository } from 'typeorm';
 import { UsersModel } from 'src/entity/users/user.entity';
 import { COMMENT_DEFAULT_FIND_OPTIONS } from 'src/constant/blog.constant';

@@ -1,5 +1,5 @@
-import { BlogsModel } from 'src/entity/posts/blog.entity';
-import { CommentsModel } from 'src/entity/posts/comment.entity';
+import { BlogsModel } from 'src/entity/blogs/blog.entity';
+import { CommentsModel } from 'src/entity/blogs/comment.entity';
 import { FindManyOptions } from 'typeorm';
 
 export const BLOG_DEFAULT_FIND_OPTIONS: FindManyOptions<BlogsModel> = {

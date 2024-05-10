@@ -5,7 +5,7 @@ import { ImageModelType } from 'src/types/common';
 import { POST_URL_PATH, USER_URL_PATH } from 'src/common/path';
 import { join } from 'path';
 import { Transform } from 'class-transformer';
-import { BlogsModel } from './posts/blog.entity';
+import { BlogsModel } from './blogs/blog.entity';
 
 @Entity({
   name: 'upload_files',

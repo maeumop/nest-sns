@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { QueryRunner, Repository } from 'typeorm';
-import { BlogsModel } from '../../entity/posts/blog.entity';
+import { BlogsModel } from '../../entity/blogs/blog.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateBlogDto } from 'src/dto/blogs/create-blog.dto';
 import { UpdateBlogDto } from 'src/dto/blogs/update-blog.dto';

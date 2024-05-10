@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
 import { BlogsController } from './blogs.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BlogsModel } from '../../entity/posts/blog.entity';
+import { BlogsModel } from '../../entity/blogs/blog.entity';
 import { AuthModule } from 'src/api/auth/auth.module';
 import { UsersModule } from 'src/api/users/users.module';
 import { ConfigModule } from '@nestjs/config';

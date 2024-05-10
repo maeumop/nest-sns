@@ -3,8 +3,8 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ChatsModel } from 'src/entity/chats/chat.entity';
 import { MessagesModel } from 'src/entity/chats/message.entity';
 import { ImageModel } from 'src/entity/image.entity';
-import { CommentsModel } from 'src/entity/posts/comment.entity';
-import { BlogsModel } from 'src/entity/posts/blog.entity';
+import { CommentsModel } from 'src/entity/blogs/comment.entity';
+import { BlogsModel } from 'src/entity/blogs/blog.entity';
 import { UsersModel } from 'src/entity/users/user.entity';
 import { UserFollowModel } from 'src/entity/users/user-follow.entity';
 

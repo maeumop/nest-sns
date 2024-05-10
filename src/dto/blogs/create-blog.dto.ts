@@ -1,4 +1,4 @@
-import { BlogsModel } from 'src/entity/posts/blog.entity';
+import { BlogsModel } from 'src/entity/blogs/blog.entity';
 import { PickType } from '@nestjs/mapped-types';
 import { IsOptional, IsString } from 'class-validator';
 

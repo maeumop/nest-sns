@@ -3,7 +3,7 @@ import {
   ExecutionContext,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { BlogsModel } from 'src/entity/posts/blog.entity';
+import { BlogsModel } from 'src/entity/blogs/blog.entity';
 
 export const Blog = createParamDecorator(
   (data: keyof BlogsModel | undefined, context: ExecutionContext) => {

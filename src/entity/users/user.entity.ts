@@ -1,13 +1,13 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { UserRole } from 'src/types/users';
-import { BlogsModel } from 'src/entity/posts/blog.entity';
+import { BlogsModel } from 'src/entity/blogs/blog.entity';
 import { BaseModel } from 'src/entity/base.entity';
 import { IsEmail, IsString, Length } from 'class-validator';
 import { Util } from 'src/common/utils';
 import { Exclude } from 'class-transformer';
 import { ChatsModel } from '../chats/chat.entity';
 import { MessagesModel } from '../chats/message.entity';
-import { CommentsModel } from '../posts/comment.entity';
+import { CommentsModel } from '../blogs/comment.entity';
 import { UserFollowModel } from './user-follow.entity';
 
 /**
